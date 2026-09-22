@@ -48,7 +48,6 @@ header h1{
     padding:12px 16px;
     border:0;
     border-radius:7px;
-    cursor:pointer;
 }
 
 .categories{
@@ -56,16 +55,13 @@ header h1{
     gap:10px;
     padding:15px;
     background:white;
-    overflow-x:auto;
 }
 
 .categories button{
-    min-width:90px;
-    padding:10px 16px;
+    padding:10px 18px;
     border:1px solid #ddd;
     border-radius:20px;
     background:white;
-    cursor:pointer;
 }
 
 .products{
@@ -110,7 +106,13 @@ header h1{
     color:white;
     border:0;
     border-radius:6px;
-    cursor:pointer;
+}
+
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:50px 20px;
+    color:#777;
 }
 
 .cart{
@@ -124,7 +126,6 @@ header h1{
     background:#111;
     color:white;
     font-size:22px;
-    box-shadow:0 3px 10px #888;
 }
 
 #orderBox{
@@ -142,10 +143,6 @@ header h1{
     margin:30px auto;
     padding:20px;
     border-radius:12px;
-}
-
-.order h2{
-    margin-bottom:15px;
 }
 
 .order input,
@@ -171,12 +168,6 @@ header h1{
     background:#ddd !important;
     color:#111 !important;
 }
-
-@media(min-width:700px){
-    .products{
-        grid-template-columns:repeat(4,1fr);
-    }
-}
 </style>
 </head>
 
@@ -187,6 +178,7 @@ header h1{
 <h1>Clothing Store India</h1>
 
 <div class="search">
+
 <input
 id="searchInput"
 type="text"
@@ -196,6 +188,7 @@ placeholder="Search clothes..."
 <button onclick="searchProducts()">
 Search
 </button>
+
 </div>
 
 </header>
@@ -258,49 +251,31 @@ Close
 
 <script>
 
-const products=[
+const products = [];
 
-{
-name:"Men Casual Shirt",
-price:699,
-category:"Men",
-image:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
-},
-
-{
-name:"Men T-Shirt",
-price:499,
-category:"Men",
-image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
-},
-
-{
-name:"Women Kurti",
-price:799,
-category:"Women",
-image:"https://images.unsplash.com/photo-1583391733956-6c78276477e2"
-},
-
-{
-name:"Women Dress",
-price:999,
-category:"Women",
-image:"https://images.unsplash.com/photo-1595777457583-95e059d581b8"
-}
-
-];
-
-let cart=[];
+let cart = [];
 
 function displayProducts(list){
 
-const box=document.getElementById("products");
+const box = document.getElementById("products");
 
-box.innerHTML="";
+box.innerHTML = "";
+
+if(list.length === 0){
+
+box.innerHTML = `
+<div class="empty">
+<h2>No Products Available</h2>
+<p>Products will appear here when added.</p>
+</div>
+`;
+
+return;
+}
 
 list.forEach((product,index)=>{
 
-box.innerHTML+=`
+box.innerHTML += `
 
 <div class="product">
 
@@ -332,7 +307,8 @@ function buyNow(index){
 
 cart.push(products[index]);
 
-document.getElementById("cartCount").innerText=cart.length;
+document.getElementById("cartCount").innerText =
+cart.length;
 
 openOrder();
 
@@ -340,7 +316,7 @@ openOrder();
 
 function openCart(){
 
-if(cart.length===0){
+if(cart.length === 0){
 
 alert("Your cart is empty.");
 
@@ -354,23 +330,28 @@ openOrder();
 
 function openOrder(){
 
-document.getElementById("orderBox").style.display="block";
+document.getElementById("orderBox").style.display =
+"block";
 
 }
 
 function closeOrder(){
 
-document.getElementById("orderBox").style.display="none";
+document.getElementById("orderBox").style.display =
+"none";
 
 }
 
 function placeOrder(){
 
-const name=document.getElementById("customerName").value;
+const name =
+document.getElementById("customerName").value;
 
-const mobile=document.getElementById("mobile").value;
+const mobile =
+document.getElementById("mobile").value;
 
-const address=document.getElementById("address").value;
+const address =
+document.getElementById("address").value;
 
 if(!name || !mobile || !address){
 
@@ -381,13 +362,13 @@ return;
 }
 
 alert(
-"Thank you "+name+
+"Thank you " + name +
 "! Your order request has been received."
 );
 
-cart=[];
+cart = [];
 
-document.getElementById("cartCount").innerText="0";
+document.getElementById("cartCount").innerText = "0";
 
 closeOrder();
 
@@ -395,14 +376,14 @@ closeOrder();
 
 function showCategory(category){
 
-if(category==="All"){
+if(category === "All"){
 
 displayProducts(products);
 
 }else{
 
 displayProducts(
-products.filter(p=>p.category===category)
+products.filter(p => p.category === category)
 );
 
 }
@@ -411,12 +392,13 @@ products.filter(p=>p.category===category)
 
 function searchProducts(){
 
-const text=document
-.getElementById("searchInput")
+const text =
+document.getElementById("searchInput")
 .value
 .toLowerCase();
 
-const result=products.filter(p=>
+const result =
+products.filter(p =>
 p.name.toLowerCase().includes(text)
 );
 
@@ -429,4 +411,4 @@ displayProducts(products);
 </script>
 
 </body>
-  </html>
+    </html>
